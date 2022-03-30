@@ -15,32 +15,34 @@ namespace StockChat.Bot
     {
         public static async Task<ChatMessage> GetStock(string stockCode)
         {
-            using (HttpClient httpClient = new HttpClient())
+            using HttpClient httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"https://stooq.com/q/l/?s=aapl.us&f=sd2t2ohlcv&h&e=csv");
+
+            if (response.IsSuccessStatusCode)
             {
-                var response = await httpClient.GetAsync($"https://stooq.com/q/l/?s=aapl.us&f=sd2t2ohlcv&h&e=csv");
+                var stream = await response.Content.ReadAsStreamAsync();
+                var reader = new StreamReader(stream);
+                var splited = new CsvReader(reader, CultureInfo.InvariantCulture);
+                var stock = splited.GetRecords<Stock>().First();
 
-                if (response.IsSuccessStatusCode)
+                var res = new ChatMessage
                 {
-                    var stream = await response.Content.ReadAsStreamAsync();
-                    var reader = new StreamReader(stream);
-                    var splited = new CsvReader(reader, CultureInfo.InvariantCulture);
-                    var stock = splited.GetRecords<Stock>().First();
+                    Message = $"{stock.Symbol} quote is ${stock.Close} per share",
+                    IsSuccessful = true
+                };
 
-                    var res = new ChatMessage();
-                    res.Message = $"{stock.Symbol} quote is ${stock.Close} per share";
-                    res.IsSuccessful = true;
+                return res;
 
-                    return res; 
-
-                }
-                else
+            }
+            else
+            {
+                var res = new ChatMessage
                 {
-                    var res = new ChatMessage();
-                    res.Message = "Error calling stock API";
-                    res.IsSuccessful = false;
+                    Message = "Error calling stock API",
+                    IsSuccessful = false
+                };
 
-                    return res; 
-                }
+                return res;
             }
         }
     }

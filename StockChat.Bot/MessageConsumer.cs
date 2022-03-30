@@ -13,15 +13,12 @@ namespace StockChat.Bot
     {
         public async Task Consume(ConsumeContext<MessageContract> context)
         {
-            var msg = new ChatMessage();
-
+            ChatMessage msg;
             var command = context.Message.Message;
-
             if (!command.StartsWith("/stock"))
             {
                 msg = new ChatMessage
                 {
-                    UserId = context.Message.UserId,
                     RoomId = context.Message.RoomId,
                     Message = "Invalid command",
                     TimeStamp = DateTime.Now
@@ -35,7 +32,6 @@ namespace StockChat.Bot
             msg = await StockService.GetStock(code);
 
             msg.RoomId = context.Message.RoomId;
-            msg.UserId = context.Message.UserId;
 
             Console.WriteLine(msg.IsSuccessful ? "Got stock!" : msg.Message);
 

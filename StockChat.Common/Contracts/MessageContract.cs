@@ -8,9 +8,7 @@ namespace StockChat.Common.Contracts
 {
     public class MessageContract
     {
-        public int UserId { get; set; }
         public int RoomId { get; set; }
         public string Message { get; set; }
-        public DateTime TimeStamp { get; set; }
     }
 }

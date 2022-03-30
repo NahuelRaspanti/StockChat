@@ -40,15 +40,24 @@ namespace StockChat.Controllers
             var viewModel = new RoomMessagesView();
             var rooms = await _context.Rooms.Include(e => e.Users).Where(e => e.Users.Any(e => e.Id == User.GetUserId())).OrderBy(e => e.RoomId).ToListAsync();
 
+            Room room;
             if (id == null)
             {
-                id = rooms.First().RoomId;
+                room = rooms.First();
+            }
+            else
+            {
+                room = rooms.FirstOrDefault(e => e.RoomId == id);
+
+                if (room == null)
+                    return Redirect("/");
+
             }
 
-            var messages = await _context.Messages.Include(a => a.User).Where(e => e.RoomId == id).OrderBy(e => e.TimeStamp).Take(50).ToListAsync();
+            var messages = await _context.Messages.Include(a => a.User).Where(e => e.RoomId == room.RoomId).OrderBy(e => e.TimeStamp).Take(50).ToListAsync();
 
-            viewModel.SelectedRoom = rooms.First(e => e.RoomId == id).Name; 
-            viewModel.RoomId = id.ToString();
+            viewModel.SelectedRoom = room.Name; 
+            viewModel.RoomId = room.RoomId.ToString();
             viewModel.Rooms = rooms;
             viewModel.Messages = messages;
             return View(viewModel);

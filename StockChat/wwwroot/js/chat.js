@@ -7,12 +7,20 @@ var roomId = document.getElementById("roomid");
 //Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
+var scrollMessages = function () {
+    const element = document.getElementById("chatroom");
+    element.scrollTop = element.scrollHeight;
+}
+
+window.onload = function () {
+    scrollMessages();
+}
+
 connection.on("ReceiveMessage", function (user, message) {
     let msg = new Message(user, message, new Date().toLocaleString());
     addMessage(msg);
 
-    const element = document.getElementById("chatroom");
-    element.scrollTop = element.scrollHeight;
+    scrollMessages();
 });
 
 connection.start().then(function () {
@@ -24,16 +32,24 @@ connection.start().then(function () {
 
 var sendMessage = function (event) {
     var user = document.getElementById("username").value;
-    var message = document.getElementById("messageInput").value;
+    var message = document.getElementById("messageInput");
 
     $.ajax({
         url: '/Home/PostMessage',
-        data: { message: message, roomId: roomId.value }
+        data: { message: message.value, roomId: roomId.value }
     })
 
-    connection.invoke("SendMessage", user, message, roomId.value).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (message.value[0] != '/') {
+        connection.invoke("SendMessage", user, message.value, roomId.value).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+    else {
+        addMessage(new Message(user, message.value, new Date().toLocaleString()));
+        scrollMessages();
+    }
+    
+    message.value = "";
     event.preventDefault();
 }
 
@@ -80,8 +96,6 @@ document.getElementById("messageInput").addEventListener("keydown", function (e)
 
     if (e.keyCode == 13 && $(this).val().trim() != "") {
         sendMessage(e);
-        $(this).val("");
-        e.preventDefault();
     }
 
 });

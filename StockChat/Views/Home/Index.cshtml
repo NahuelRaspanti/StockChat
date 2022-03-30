@@ -6,10 +6,14 @@
 <div class="text-center">
     <h1 class="display-4">@Model.SelectedRoom</h1>
     <div class="chat-room-container">
-        <div id="rooms" class="col-sm-1">
+        <div id="rooms" class="col-sm-2 room-list">
             @foreach (Room r in Model.Rooms)
             {
-                <div class="row">@Html.ActionLink(r.Name, "Index", "Home", new { id = r.RoomId })</div>
+                <a href="@Url.Action("Index", "Home", new { id = r.RoomId })" style="text-decoration: none; color: black">
+                    <div class="row p-3 room">@r.Name</div>
+                </a>
+
+                //<div class="row p-3 room">@Html.ActionLink(, "Index", "Home", new { id = r.RoomId }, new { @style = "color: black" })</div>
             }
         </div>
         <div class="chat-container">
