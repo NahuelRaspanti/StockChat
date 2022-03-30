@@ -1,8 +1,52 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Model.SelectedRoom;
 }
 
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">@Model.SelectedRoom</h1>
+    <div class="chat-room-container">
+        <div id="rooms" class="col-sm-1">
+            @foreach (Room r in Model.Rooms)
+            {
+                <div class="row">@Html.ActionLink(r.Name, "Index", "Home", new { id = r.RoomId })</div>
+            }
+        </div>
+        <div class="chat-container">
+
+            <div id="chatroom" class="chat">
+
+                <ul id="messageContainer" style="list-style-type:none">
+                    @foreach (Message msg in Model.Messages)
+                    {
+                        <li class="container">
+                            <div class="d-flex">
+                                <p class="small mb-1 mr-1">@msg.User.UserName</p>
+                                <p class="small mb-1 text-muted">@msg.TimeStamp</p>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start">
+                                <div>
+                                    <p class="small p-2 rounded-pill" style="background-color: #f5f6f7;">
+                                        @msg.Post
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+            <div class="chat-input">
+                <input autocomplete="off" class="chat-textbox" id="messageInput" type="text" />
+                <input id="sendButton" type="submit" />
+            </div>
+            <input type="hidden" value="@User.Identity.Name" id="username" />
+            <input type="hidden" value="@Model.RoomId" id="roomid" />
+        </div>
+
+    </div>
+
 </div>
+<script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>

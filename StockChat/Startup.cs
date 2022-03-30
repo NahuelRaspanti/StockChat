@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,11 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StockChat.Common.Contracts;
+using StockChat.Consumer;
 using StockChat.Data;
+using StockChat.Hubs;
+using StockChat.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 
 namespace StockChat
 {
@@ -35,6 +41,29 @@ namespace StockChat
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddSignalR();
+
+            services.AddTransient<ChatHub>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<MessageConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ReceiveEndpoint("chat-message", a =>
+                    {
+                        a.ConfigureConsumer<MessageConsumer>(context);
+                        
+                    });
+                    cfg.ConfigureEndpoints(context);
+                });
+
+            });
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +93,9 @@ namespace StockChat
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/Home/Index");
+
                 endpoints.MapRazorPages();
             });
         }

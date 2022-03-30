@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat", "StockChat\StockChat.csproj", "{820E6685-DED6-4DF2-8323-0E7DC303EE59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat", "StockChat\StockChat.csproj", "{820E6685-DED6-4DF2-8323-0E7DC303EE59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat.Bot", "StockChat.Bot\StockChat.Bot.csproj", "{5B65A46F-7FEF-440D-A576-9A1F0956D7A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Common", "StockChat.Common\StockChat.Common.csproj", "{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{820E6685-DED6-4DF2-8323-0E7DC303EE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{820E6685-DED6-4DF2-8323-0E7DC303EE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{820E6685-DED6-4DF2-8323-0E7DC303EE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B65A46F-7FEF-440D-A576-9A1F0956D7A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B65A46F-7FEF-440D-A576-9A1F0956D7A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B65A46F-7FEF-440D-A576-9A1F0956D7A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B65A46F-7FEF-440D-A576-9A1F0956D7A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
