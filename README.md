@@ -1,5 +1,12 @@
 # StockChat
 
+**Assignment**:
+
+Create a simple browser-based chat application using .NET.
+
+Allow several users to talk in a chatroom and also to get stock quotes
+from an API using a specific command.
+
 **Prerequisites**:
 
 -   Docker
