@@ -16,29 +16,27 @@ using System.Security.Claims;
 using StockChat.ViewModels;
 using Microsoft.AspNetCore.SignalR;
 using StockChat.Hubs;
+using StockChat.Repositories;
 
 namespace StockChat.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly IHubContext<ChatHub> _hubContext;
-
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IPublishEndpoint publishEndpoint, IHubContext<ChatHub> hubContext)
+        private readonly IRoomRepository _roomRepository;
+        private readonly IMessageRepository _messageRepository;
+        public HomeController(IPublishEndpoint publishEndpoint, IRoomRepository roomRepository, IMessageRepository messageRepository)
         {
-            _logger = logger;
-            _context = context;
             _publishEndpoint = publishEndpoint;
-            _hubContext = hubContext;
+            _roomRepository = roomRepository;
+            _messageRepository = messageRepository;
         }
 
         public async Task<IActionResult> Index(int? id)
         {
             var viewModel = new RoomMessagesView();
-            var rooms = await _context.Rooms.Include(e => e.Users).Where(e => e.Users.Any(e => e.Id == User.GetUserId())).OrderBy(e => e.RoomId).ToListAsync();
+            var rooms = await _roomRepository.GetRooms(User.GetUserId());
 
             Room room;
             if (id == null)
@@ -54,7 +52,7 @@ namespace StockChat.Controllers
 
             }
 
-            var messages = await _context.Messages.Include(a => a.User).Where(e => e.RoomId == room.RoomId).OrderBy(e => e.TimeStamp).Take(50).ToListAsync();
+            var messages = await _messageRepository.GetMessagesByRoomId(room.RoomId);
 
             viewModel.SelectedRoom = room.Name; 
             viewModel.RoomId = room.RoomId.ToString();
@@ -68,9 +66,13 @@ namespace StockChat.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<ActionResult> PostMessage(string message, int roomId)
         {
-
+            if (string.IsNullOrEmpty(message))
+            {
+                return BadRequest();
+            }
             //Handle bot message
             if (message.StartsWith('/'))
             {
@@ -92,8 +94,7 @@ namespace StockChat.Controllers
                     UserId = User.GetUserId()
                 };
 
-                _context.Messages.Add(msg);
-                await _context.SaveChangesAsync();
+                await _messageRepository.SaveMessage(msg);
             }
             return Ok();
         }

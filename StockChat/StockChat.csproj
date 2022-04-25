@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Client\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StockChat.Common\StockChat.Common.csproj" />
   </ItemGroup>
 

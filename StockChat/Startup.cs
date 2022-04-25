@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using StockChat.Repositories;
 
 namespace StockChat
 {
@@ -46,6 +47,9 @@ namespace StockChat
 
             services.AddTransient<ChatHub>();
 
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<MessageConsumer>();
@@ -66,7 +70,6 @@ namespace StockChat
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -77,7 +80,6 @@ namespace StockChat
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

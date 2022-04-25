@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat.Bot", "StockChat.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockChat.Common", "StockChat.Common\StockChat.Common.csproj", "{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Bot.Tests", "StockChat.Bot.Tests\StockChat.Bot.Tests.csproj", "{EB9FC489-3F78-4092-A59A-F86A14FC54A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockChat.Tests", "StockChat.Tests\StockChat.Tests.csproj", "{34DB04ED-CD95-445E-82C8-E1F9A6410134}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A6EB88D-71C4-4BFD-B567-FF118B3C36E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB9FC489-3F78-4092-A59A-F86A14FC54A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB9FC489-3F78-4092-A59A-F86A14FC54A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB9FC489-3F78-4092-A59A-F86A14FC54A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB9FC489-3F78-4092-A59A-F86A14FC54A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34DB04ED-CD95-445E-82C8-E1F9A6410134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34DB04ED-CD95-445E-82C8-E1F9A6410134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34DB04ED-CD95-445E-82C8-E1F9A6410134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34DB04ED-CD95-445E-82C8-E1F9A6410134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,8 +21,6 @@ namespace StockChat.Bot
                 {
                     services.AddMassTransit(x =>
                     {
-                        //x.AddConsumer<MessageConsumer>();
-
                         x.UsingRabbitMq((context, cfg) =>
                         {
                             cfg.ReceiveEndpoint("stock-message", a =>

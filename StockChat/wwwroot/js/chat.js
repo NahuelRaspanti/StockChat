@@ -36,6 +36,7 @@ var sendMessage = function (event) {
 
     $.ajax({
         url: '/Home/PostMessage',
+        type: "POST",
         data: { message: message.value, roomId: roomId.value }
     })
 

@@ -16,7 +16,7 @@ namespace StockChat.Bot
         public static async Task<ChatMessage> GetStock(string stockCode)
         {
             using HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync($"https://stooq.com/q/l/?s=aapl.us&f=sd2t2ohlcv&h&e=csv");
+            var response = await httpClient.GetAsync($"https://stooq.com/q/l/?s={stockCode}&f=sd2t2ohlcv&h&e=csv");
 
             if (response.IsSuccessStatusCode)
             {
@@ -25,11 +25,24 @@ namespace StockChat.Bot
                 var splited = new CsvReader(reader, CultureInfo.InvariantCulture);
                 var stock = splited.GetRecords<Stock>().First();
 
-                var res = new ChatMessage
+                var res = new ChatMessage();
+
+                if(stock.Close != "N/D")
                 {
-                    Message = $"{stock.Symbol} quote is ${stock.Close} per share",
-                    IsSuccessful = true
-                };
+                    res = new ChatMessage
+                    {
+                        Message = $"{stock.Symbol} quote is ${stock.Close} per share",
+                        IsSuccessful = true
+                    };
+                }
+                else
+                {
+                    res = new ChatMessage
+                    {
+                        Message = $"Stock not found",
+                        IsSuccessful = false
+                    };
+                }
 
                 return res;
 
