@@ -77,7 +77,7 @@ namespace StockChat.Tests
         }
 
         [Test]
-        public async Task PostMessageActionResult_ReturnsNoContent_GivenEmptyMessage()
+        public async Task PostMessageActionResult_ReturnsBadRequest_GivenEmptyMessage()
         {
             var controller = new HomeController(mockPublish.Object, mockRoomRepository.Object, mockMessageRepository.Object);
 
